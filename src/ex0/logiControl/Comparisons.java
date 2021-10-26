@@ -34,26 +34,38 @@ public class Comparisons {
         int bestElevIndex = -1;
         double bestTimeToSrc = Double.MAX_VALUE;
         Elevator curr;
+        double currTimeToSrc;
+//        for (int i = 0; i < algo.getBuilding().numberOfElevetors(); i++) {
+//            curr = algo.getBuilding().getElevetor(i);
+//            currTimeToSrc = timeToSrc(curr, call.getSrc());
+//            if (currTimeToSrc < bestTimeToSrc && dirAndPass(algo, call, i)) {
+//                if ()
+//                bestElevIndex = i;
+//                bestTimeToSrc = currTimeToSrc;
+//            }
+//        }
 
-        for (int i = 0; i < algo.getBuilding().numberOfElevetors(); i++) {
-            curr = algo.getBuilding().getElevetor(i);
-            double currTimeToSrc = timeToSrc(curr, call.getSrc());
-            if (currTimeToSrc < bestTimeToSrc && dirAndPass(algo, call, i)) {
-                bestElevIndex = i;
-                bestTimeToSrc = currTimeToSrc;
-            }
-        }
-
-        if (bestElevIndex == -1) {
+//        if (bestElevIndex == -1) {
             for (int i = 0; i < algo.getBuilding().numberOfElevetors(); i++) {
                 curr = algo.getBuilding().getElevetor(i);
-                double currTimeToSrc = timeToSrc(curr, call.getSrc());
-                if (currTimeToSrc < bestTimeToSrc) {
+                currTimeToSrc = timeToSrc(curr, call.getSrc());
+                if (currTimeToSrc < bestTimeToSrc && dirAndPass(algo, call, i)) {
                     bestElevIndex = i;
                     bestTimeToSrc = currTimeToSrc;
                 }
             }
-        }
+
+            if (bestElevIndex == -1) {
+                for (int i = 0; i < algo.getBuilding().numberOfElevetors(); i++) {
+                    curr = algo.getBuilding().getElevetor(i);
+                    currTimeToSrc = timeToSrc(curr, call.getSrc());
+                    if (currTimeToSrc < bestTimeToSrc) {
+                        bestElevIndex = i;
+                        bestTimeToSrc = currTimeToSrc;
+                    }
+                }
+            }
+//        }
         return bestElevIndex;
     }
 
@@ -62,14 +74,15 @@ public class Comparisons {
      * the function checks whether the elevator (i) has not yet passed the source floor,
      * whether the elevator is going in the same direction of the call
      * or the elevator not doing anything
+     *
      * @return true if the index of the elevator Should take the call.
      */
     public static boolean dirAndPass(OurAlgo algo, CallForElevator call, int i) {
-        //
+
         if (algo.up[i] && call.getSrc() < call.getDest() &&
                 algo.getBuilding().getElevetor(i).getPos() < call.getSrc())
             return true;
-        //
+
         if (algo.down[i] && call.getSrc() > call.getDest() &&
                 algo.getBuilding().getElevetor(i).getPos() > call.getSrc())
             return true;

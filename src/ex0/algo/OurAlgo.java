@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class OurAlgo implements ElevatorAlgo {
 
     private Building building;
-    myQueue[] callsQueues;
+    public myQueue[] callsQueues;
     public boolean[] down;
     public boolean[] up;
 
