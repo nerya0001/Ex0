@@ -27,6 +27,7 @@ public class Comparisons {
      * Given a callForElevator and a building (in OurAlgo shape)
      * the function checks whether the elevator has not yet passed the source floor
      * and whether the elevator is going in the same direction of the call.
+     *
      * @return true if the index of the elevator Should take the call.
      * @return the best distance and time wise available elevator to the source.
      */
@@ -35,54 +36,43 @@ public class Comparisons {
         double bestTimeToSrc = Double.MAX_VALUE;
         Elevator curr;
         double currTimeToSrc;
-//        for (int i = 0; i < algo.getBuilding().numberOfElevetors(); i++) {
-//            curr = algo.getBuilding().getElevetor(i);
-//            currTimeToSrc = timeToSrc(curr, call.getSrc());
-//            if (currTimeToSrc < bestTimeToSrc && dirAndPass(algo, call, i)) {
-//                if ()
-//                bestElevIndex = i;
-//                bestTimeToSrc = currTimeToSrc;
-//            }
-//        }
 
-//        if (bestElevIndex == -1) {
+        for (int i = 0; i < algo.getBuilding().numberOfElevetors(); i++) {
+            curr = algo.getBuilding().getElevetor(i);
+            currTimeToSrc = timeToSrc(curr, call.getSrc());
+            if (currTimeToSrc < bestTimeToSrc && dirAndPass(algo, call, i)) {
+                bestElevIndex = i;
+                bestTimeToSrc = currTimeToSrc;
+            }
+        }
+
+        if (bestElevIndex == -1) {
             for (int i = 0; i < algo.getBuilding().numberOfElevetors(); i++) {
                 curr = algo.getBuilding().getElevetor(i);
                 currTimeToSrc = timeToSrc(curr, call.getSrc());
-                if (currTimeToSrc < bestTimeToSrc && dirAndPass(algo, call, i)) {
+                if (currTimeToSrc < bestTimeToSrc) {
                     bestElevIndex = i;
                     bestTimeToSrc = currTimeToSrc;
                 }
             }
+        }
 
-            if (bestElevIndex == -1) {
-                for (int i = 0; i < algo.getBuilding().numberOfElevetors(); i++) {
-                    curr = algo.getBuilding().getElevetor(i);
-                    currTimeToSrc = timeToSrc(curr, call.getSrc());
-                    if (currTimeToSrc < bestTimeToSrc) {
-                        bestElevIndex = i;
-                        bestTimeToSrc = currTimeToSrc;
-                    }
-                }
-            }
-//        }
         return bestElevIndex;
     }
 
     /**
      * Given a callForElevator, access to OurAlgo and elevator's index i
-     * the function checks whether the elevator (i) has not yet passed the source floor,
-     * whether the elevator is going in the same direction of the call
+     * the function checkswhether the elevator (i) is going in the same direction of the call
+     * and whether the elevator has not yet passed the source floor,
      * or the elevator not doing anything
-     *
      * @return true if the index of the elevator Should take the call.
      */
     public static boolean dirAndPass(OurAlgo algo, CallForElevator call, int i) {
-
+        // going up and didn't pass the src floor
         if (algo.up[i] && call.getSrc() < call.getDest() &&
                 algo.getBuilding().getElevetor(i).getPos() < call.getSrc())
             return true;
-
+        // going down and didn't pass the src floor
         if (algo.down[i] && call.getSrc() > call.getDest() &&
                 algo.getBuilding().getElevetor(i).getPos() > call.getSrc())
             return true;

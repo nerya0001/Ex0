@@ -3,6 +3,10 @@ package ex0.logiControl;
 import java.util.Collections;
 import java.util.PriorityQueue;
 
+/**
+ * This class represents the data structure we will use in the algorithm
+ */
+
 public class myQueue {
     private PriorityQueue<Integer> up;
     private PriorityQueue<Integer> down;
