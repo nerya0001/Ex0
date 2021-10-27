@@ -24,6 +24,28 @@ public class Comparisons {
     }
 
     /**
+     * Given a callForElevator, access to OurAlgo and elevator's index i
+     * the function checkswhether the elevator (i) is going in the same direction of the call
+     * and whether the elevator has not yet passed the source floor,
+     * or the elevator not doing anything
+     * @return true if the index of the elevator Should take the call.
+     */
+    public static boolean dirAndPass(OurAlgo algo, CallForElevator call, int i) {
+        // going up and didn't pass the src floor
+        if (algo.getUp(i) && call.getSrc() < call.getDest() &&
+                algo.getBuilding().getElevetor(i).getPos() < call.getSrc())
+            return true;
+        // going down and didn't pass the src floor
+        if (algo.getDown(i) && call.getSrc() > call.getDest() &&
+                algo.getBuilding().getElevetor(i).getPos() > call.getSrc())
+            return true;
+        // available elevator
+        if (!algo.getDown(i) && !algo.getUp(i))
+            return true;
+        return false;
+    }
+
+    /**
      * Given a callForElevator and a building (in OurAlgo shape)
      * the function checks whether the elevator has not yet passed the source floor
      * and whether the elevator is going in the same direction of the call.
@@ -59,40 +81,4 @@ public class Comparisons {
 
         return bestElevIndex;
     }
-
-    /**
-     * Given a callForElevator, access to OurAlgo and elevator's index i
-     * the function checkswhether the elevator (i) is going in the same direction of the call
-     * and whether the elevator has not yet passed the source floor,
-     * or the elevator not doing anything
-     * @return true if the index of the elevator Should take the call.
-     */
-    public static boolean dirAndPass(OurAlgo algo, CallForElevator call, int i) {
-        // going up and didn't pass the src floor
-        if (algo.up[i] && call.getSrc() < call.getDest() &&
-                algo.getBuilding().getElevetor(i).getPos() < call.getSrc())
-            return true;
-        // going down and didn't pass the src floor
-        if (algo.down[i] && call.getSrc() > call.getDest() &&
-                algo.getBuilding().getElevetor(i).getPos() > call.getSrc())
-            return true;
-        // available elevator
-        if (!algo.down[i] && !algo.up[i])
-            return true;
-        return false;
-    }
-
-
-    /**
-     * Given a callForElevator and a building (in OurAlgo shape)
-     * the function checks whether the elevator has not yet passed the source floor
-     * and whether the elevator is going in the same direction of the call.
-     * @return true if the index of the elevator Should take the call.
-     */
-
-    /**
-     * @return the best distance and time wise same direction elevator to the source.
-     */
-
-
 }

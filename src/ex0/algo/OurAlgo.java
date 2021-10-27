@@ -4,30 +4,29 @@ import ex0.Building;
 import ex0.CallForElevator;
 import ex0.Elevator;
 import ex0.logiControl.Comparisons;
-import ex0.logiControl.myQueue;
-
+import ex0.logiControl.MyQueue;
 import java.util.Arrays;
 
 public class OurAlgo implements ElevatorAlgo {
 
     private Building building;
-    public myQueue[] callsQueues;
-    public boolean[] down;
-    public boolean[] up;
+    private MyQueue[] callsQueues;
+    private boolean[] down;
+    private boolean[] up;
 
     public OurAlgo(Building b) {
         this.building = b;
-        this.callsQueues = new myQueue[building.numberOfElevetors()];
+        this.callsQueues = new MyQueue[building.numberOfElevetors()];
         initCalls();
-        down = new boolean[building.numberOfElevetors()];
-        up = new boolean[building.numberOfElevetors()];
+        this.down = new boolean[building.numberOfElevetors()];
+        this.up = new boolean[building.numberOfElevetors()];
         Arrays.fill(down, false);
         Arrays.fill(up, false);
     }
 
     private void initCalls(){
         for (int i = 0; i < building.numberOfElevetors(); i++){
-            this.callsQueues[i] = new myQueue();
+            this.callsQueues[i] = new MyQueue();
         }
 
     }
@@ -35,6 +34,14 @@ public class OurAlgo implements ElevatorAlgo {
     @Override
     public Building getBuilding() {
         return this.building;
+    }
+
+    public boolean getUp(int elev){
+        return this.up[elev];
+    }
+
+    public boolean getDown(int elev){
+        return this.down[elev];
     }
 
     @Override

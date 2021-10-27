@@ -7,11 +7,11 @@ import java.util.PriorityQueue;
  * This class represents the data structure we will use in the algorithm
  */
 
-public class myQueue {
+public class MyQueue {
     private PriorityQueue<Integer> up;
     private PriorityQueue<Integer> down;
 
-    public myQueue() {
+    public MyQueue() {
         this.up = new PriorityQueue<Integer>();
         this.down = new PriorityQueue<Integer>(Collections.reverseOrder());
     }
