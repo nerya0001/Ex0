@@ -12,31 +12,31 @@ import org.junit.jupiter.api.Test;
 import java.util.concurrent.TimeUnit;
 
 class OurAlgoTest {
-    Building buildingCase5;
+    Building buildingCase1;
     Building buildingCase9;
-    OurAlgo algoCase5;
+    OurAlgo algoCase1;
     OurAlgo algoCase9;
 
     @BeforeEach
     void init(){
-        Simulator_A.initData(5,null);
-        buildingCase5 = Simulator_A.getBuilding();
+        Simulator_A.initData(1,null);
+        buildingCase1 = Simulator_A.getBuilding();
         Simulator_A.initData(9,null);
         buildingCase9 = Simulator_A.getBuilding();
-        algoCase5 = new OurAlgo(buildingCase5);
+        algoCase1 = new OurAlgo(buildingCase1);
         algoCase9 =new OurAlgo(buildingCase9);
     }
 
     @Test
     void getBuilding() {
         assertEquals(algoCase9.getBuilding(), buildingCase9);
-        assertEquals(algoCase5.getBuilding(), buildingCase5);
-        assertNotEquals(algoCase5.getBuilding(), buildingCase9);
+        assertEquals(algoCase1.getBuilding(), buildingCase1);
+        assertNotEquals(algoCase1.getBuilding(), buildingCase9);
     }
 
     @Test
     void algoName() {
-        assertEquals(algoCase5.algoName(), "our algo");
+        assertEquals(algoCase1.algoName(), "our algo");
     }
 
     @Test
@@ -51,20 +51,21 @@ class OurAlgoTest {
         assertEquals(algoCase9.allocateAnElevator(call2), 1);
 
         //chacking if the allocate take care of the source floor
-        int elevIndex = algoCase5.allocateAnElevator(call1);
+        int elevIndex = algoCase1.allocateAnElevator(call1);
         //just the dest floor need to be inside
-        assertEquals(algoCase5.getCallsQueues()[elevIndex].sizeUp(), 1);
+        assertEquals(algoCase1.getCallsQueues()[elevIndex].sizeUp(), 1);
     }
 
     @Test
     void cmdElevator() {
-        CallForElevator call1 = new Call_A(0, 1, 22);
-        CallForElevator call2 = new Call_A(0, 22, 43);
-        CallForElevator call3 = new Call_A(0, 30, 41);
-        CallForElevator call4 = new Call_A(0, 10, -5);
-        int elevIndex = algoCase5.allocateAnElevator(call1);
-        assertEquals(algoCase5.getCallsQueues()[elevIndex].sizeUp(), 1);
-        algoCase5.cmdElevator(elevIndex);
-        assertEquals(algoCase5.getCallsQueues()[elevIndex].sizeUp(), 0);
+        CallForElevator call = new Call_A(0, 1, 22);
+
+        int elevIndex = algoCase1.allocateAnElevator(call);//add the call to the elevator
+        // queue so that elevator queue Size = 2 (src floor, dest floor)
+
+        algoCase1.cmdElevator(elevIndex);//handle one floor
+        //so that elevator queue Size = 1 (only dest floor)
+
+        assertEquals(algoCase1.getCallsQueues()[elevIndex].sizeUp(), 1);
     }
 }

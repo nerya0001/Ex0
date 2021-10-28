@@ -53,9 +53,14 @@ class ComparisonsTest {
         assertTrue(Comparisons.dirAndPass(algoCase9, call, 3));
     }
 
-    @Test
+    @Test //almost same test as allocateAnElevator
     void bestAvailElev() {
-        //same test as allocateAnElevator
+        Elevator elev3 = algoCase9.getBuilding().getElevetor(3);
+        CallForElevator call1 = new Call_A(0, 1, 22);
+        CallForElevator call2 = new Call_A(0, -10, 43);
+        //elevator 3 is the fastest and closest elevator in case 9
+        assertEquals(Comparisons.bestAvailElev(call1, algoCase9), 3);
+
 
 
 
