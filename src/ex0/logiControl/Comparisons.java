@@ -1,6 +1,5 @@
 package ex0.logiControl;
 
-import ex0.Building;
 import ex0.CallForElevator;
 import ex0.Elevator;
 import ex0.algo.OurAlgo;
@@ -32,15 +31,15 @@ public class Comparisons {
      */
     public static boolean dirAndPass(OurAlgo algo, CallForElevator call, int i) {
         // going up and didn't pass the src floor
-        if (algo.getUp(i) && call.getSrc() < call.getDest() &&
+        if (algo.getIterateUp(i) && call.getSrc() < call.getDest() &&
                 algo.getBuilding().getElevetor(i).getPos() < call.getSrc())
             return true;
         // going down and didn't pass the src floor
-        if (algo.getDown(i) && call.getSrc() > call.getDest() &&
+        if (algo.getIterateDown(i) && call.getSrc() > call.getDest() &&
                 algo.getBuilding().getElevetor(i).getPos() > call.getSrc())
             return true;
         // available elevator
-        if (!algo.getDown(i) && !algo.getUp(i))
+        if (!algo.getIterateDown(i) && !algo.getIterateUp(i))
             return true;
         return false;
     }

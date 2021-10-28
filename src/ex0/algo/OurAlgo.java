@@ -13,17 +13,17 @@ public class OurAlgo implements ElevatorAlgo {
     private Building building;
     private MyQueue[] callsQueues;
     //Arrays that say whether the elevator going through the up queue, the down queue or none of them.
-    private boolean[] down;
-    private boolean[] up;
+    private boolean[] iterateDown;
+    private boolean[] iterateUp;
 
     public OurAlgo(Building b) {
         this.building = b;
         this.callsQueues = new MyQueue[building.numberOfElevetors()];
         initCalls();
-        this.down = new boolean[building.numberOfElevetors()];
-        this.up = new boolean[building.numberOfElevetors()];
-        Arrays.fill(down, false);
-        Arrays.fill(up, false);
+        this.iterateDown = new boolean[building.numberOfElevetors()];
+        this.iterateUp = new boolean[building.numberOfElevetors()];
+        Arrays.fill(iterateDown, false);
+        Arrays.fill(iterateUp, false);
     }
 
     private void initCalls() {
@@ -36,13 +36,18 @@ public class OurAlgo implements ElevatorAlgo {
         return this.building;
     }
 
-    public boolean getUp(int elev) {
-        return this.up[elev];
+    public boolean getIterateUp(int elev) {
+        return this.iterateUp[elev];
     }
 
-    public boolean getDown(int elev) {
-        return this.down[elev];
+    public boolean getIterateDown(int elev) {
+        return this.iterateDown[elev];
     }
+
+    public MyQueue[] getCallsQueues(){
+        return callsQueues;
+    }
+
 
     @Override
     public String algoName() {
@@ -55,17 +60,17 @@ public class OurAlgo implements ElevatorAlgo {
         if (c.getSrc() < c.getDest()) {//up case
             callsQueues[bestElev].addToUp(c.getSrc());
             callsQueues[bestElev].addToUp(c.getDest());
-            if (!up[bestElev] && !down[bestElev])
+            if (!iterateUp[bestElev] && !iterateDown[bestElev])
                 building.getElevetor(bestElev).goTo(callsQueues[bestElev].pollUp());
-            if (!down[bestElev])
-                up[bestElev] = true;
+            if (!iterateDown[bestElev])
+                iterateUp[bestElev] = true;
         } else {//down case
             callsQueues[bestElev].addToDown(c.getSrc());
             callsQueues[bestElev].addToDown(c.getDest());
-            if (!up[bestElev] && !down[bestElev])
+            if (!iterateUp[bestElev] && !iterateDown[bestElev])
                 building.getElevetor(bestElev).goTo(callsQueues[bestElev].pollDown());
-            if (!up[bestElev])
-                down[bestElev] = true;
+            if (!iterateUp[bestElev])
+                iterateDown[bestElev] = true;
         }
         return bestElev;
     }
@@ -75,30 +80,30 @@ public class OurAlgo implements ElevatorAlgo {
         Elevator elevator = building.getElevetor(elev);
         // in the middle of getting up and should keep up
         if (callsQueues[elev].sizeUp() != 0 &&
-                up[elev] && elevator.getState() == Elevator.LEVEL)
+                iterateUp[elev] && elevator.getState() == Elevator.LEVEL)
             elevator.goTo(callsQueues[elev].pollUp());
 
         // in the end of getting up and maybe should get down
         if (callsQueues[elev].sizeUp() == 0 &&
-                up[elev] && elevator.getState() == Elevator.LEVEL) {
-            up[elev] = false;
+                iterateUp[elev] && elevator.getState() == Elevator.LEVEL) {
+            iterateUp[elev] = false;
             if (callsQueues[elev].sizeDown() != 0) {
-                down[elev] = true;
+                iterateDown[elev] = true;
                 elevator.goTo(callsQueues[elev].pollDown());
             }
         }
 
         //in the middle of getting down and should keep down
         if (callsQueues[elev].sizeDown() != 0 &&
-                down[elev] && elevator.getState() == Elevator.LEVEL)
+                iterateDown[elev] && elevator.getState() == Elevator.LEVEL)
             elevator.goTo(callsQueues[elev].pollDown());
 
         // in the end of getting down and maybe should get up
         if (callsQueues[elev].sizeDown() == 0 &&
-                down[elev] && elevator.getState() == Elevator.LEVEL) {
-            down[elev] = false;
+                iterateDown[elev] && elevator.getState() == Elevator.LEVEL) {
+            iterateDown[elev] = false;
             if (callsQueues[elev].sizeUp() != 0) {
-                up[elev] = true;
+                iterateUp[elev] = true;
                 elevator.goTo(callsQueues[elev].pollUp());
             }
         }
