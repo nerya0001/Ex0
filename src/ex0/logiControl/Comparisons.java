@@ -46,12 +46,9 @@ public class Comparisons {
     }
 
     /**
-     * Given a callForElevator and a building (in OurAlgo shape)
-     * the function checks whether the elevator has not yet passed the source floor
-     * and whether the elevator is going in the same direction of the call.
-     *
-     * @return true if the index of the elevator Should take the call.
-     * @return the best distance and time wise available elevator to the source.
+     * Goes through all the elevators and uses the previous two functions
+     * to determine which one is the optimal elevator.
+     * @return the index of the optimal elevator.
      */
     public static int bestAvailElev(CallForElevator call, OurAlgo algo) {
         int bestElevIndex = -1;
@@ -76,6 +73,14 @@ public class Comparisons {
                     bestElevIndex = i;
                     bestTimeToSrc = currTimeToSrc;
                 }
+            }
+        }
+        for (int i = 0; i < algo.getBuilding().numberOfElevetors(); i++) {
+            curr = algo.getBuilding().getElevetor(i);
+            currTimeToSrc = timeToSrc(curr, call.getSrc());
+            if (currTimeToSrc < bestTimeToSrc && dirAndPass(algo, call, i)) {
+                bestElevIndex = i;
+                bestTimeToSrc = currTimeToSrc;
             }
         }
 

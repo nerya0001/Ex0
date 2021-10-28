@@ -11,6 +11,7 @@ import ex0.simulator.Simulator_A;
  */
 public class Ex0_main {
     public static Long ID0=211909940L, ID1 = 208240754L, ID2 = null;
+
     public static void main(String[] ar) {
         String codeOwner = codeOwner();
         Simulator_A.setCodeOwner(codeOwner);
