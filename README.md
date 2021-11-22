@@ -6,27 +6,39 @@ Our goal in this repository is to creat an online elevator allocation algorithm,
 we define efficiency as reducing the time passed from the moment a call was received until the elevator reached the destination.
 
 ## Approach:
-An offline elevators allocation algorithm is an algorithm, design to allocate elevators to passengers when all the input is given in advance.  
-The fact that the input is already known, on one hand give the algorithm extra time to calculate the best allocation posible.  
-But on the other hand introduce a complication to the problem of allocation - the need to simulate somehow the movment of the elevators, in order to calculate the location of each elevator in any given moment.  
-In this repository we will attempt to suggest an appoach for an offline algorithm without the need to simulate the movment of the elevators.
+An online elevators allocation algorithm is an algorithm, design to allocate elevators to passengers when all the input is given in real time.  
+The fact that the input given in real time, limits the amount of time the potential algorithm have to calculate an optimal allocation.
+In this repository we will attempt to suggest an appoach for an efficient online algorithm. 
+
+For more information on this topic we recommend reading the following articles:
+* This one dive deep into the subject, it helped us specipicly on it's unique approach to offline algorithm (page 70) - https://1drv.ms/b/s!AuDWVVpV6-rC7na9FC_0fi-pJ1Ig?e=vevmW4  
+* This one gave us (on page 146) a point to think about with regard to online algorithm - tha algorithm has to work within a certain time limit -  https://repository.lboro.ac.uk/articles/thesis/An_intelligent_real-time_lift_scheduling_system/9539087/files/17168627.pdf  
+
+* In this one we were introduced to the idea of dynamic partition of elevator allocation system - http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.476.8791&rep=rep1&type=pdf  
+
+
 
 ## Online Algorithm:
-Because we do not simulate the elevators movment, most of the work our algorithm do involve mostly the information that is already in the calls file.
-Essentially for every elevator the algorithm attemt to create the longest list posible of a calls that will overlap with each other in term of times, floor range and direction of travel.  
-Once every elevator got their first list the calls on that list are allocated to the output and the algorithm perform the same steps repeatedly until it get "stuck" - meanning, it can no longer perform without exceeding a list boundaries.  
-Then if there are still a few calls that wasn't allocated, we allocate them sepparately.
+First of all we'll describe the data structure we used to store the calls.  
+We are using an array in the size of the amount of elevators, such that each cell represent by two priority queues of calls, one for ascending calls and the other for descending calls.  
 
-#### the algorithm in steps: 
-1. Loop on every elevator in the building, and for every elevator loop on every call in the call list, and for every call loop again on all the rest of the calls.
-2. Check if the current call is in the time frame of the main call we are on. If so, check if it is in the same direction and that the source floor of the current call is between the source and destination of the main call. 
-3. If it is, append it to a list of the main call.
-4. Append the list to a list of the current elevator.
-5. Find the longest list in the elevator list of calls lists and allocate those calls to the current elevator.
-6. After doing so for all of the elevators, do so again until you can't.
-7. Allocate remainimg calls if there are any.
+Every time the system recieves a call, the algorithm assigning the source and destanition of the call to the correct direction queue of the elevator it decide is the optimal elevator for the job.  
+because we used priority queues, the floors order is always kept sorted, and as long as the elevator doesn't pass a certain floor it is posible to insert more calls from this floor and beyond in the direction of travel.  
+An elevator will not change direction while there are still calls in the current direction queue.
 
 
-## How to run:
+#### In short: 
+we'll use a couple of functions in order to decide which elevator is the optimal one for the current call.  
+
+1. Time to src - calculate the time it'll take the elevator to get to the call's source floor.
+2. direction and did alrady passed - check the elevator direction and if it alrady passed the call's source floor.
+3. best elevator - going through all of the elevators and using the two functions above in order to decide which elevator is the best one.  
+
+
+## UML:
+
+
+
+
 
 
