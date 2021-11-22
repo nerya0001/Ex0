@@ -36,6 +36,9 @@ we'll use a couple of functions in order to decide which elevator is the optimal
 
 
 ## UML:
+![](UML.jpeg)  
+
+## How To Run:
 
 
 
